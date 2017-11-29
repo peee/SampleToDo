@@ -32,6 +32,7 @@ class MainFragment : Fragment() {
             Log.i(LOG_TAG, "long clicked $todo")
             // TODO: open dialog to delete
             toDoDb.todoDao().delete(todo)
+            syncToDoListWithDb()
             return true
         }
     })
@@ -44,17 +45,12 @@ class MainFragment : Fragment() {
 
         toDoDb = ToDoDatabase.getInstance(activity)
 
-        val toDoList = toDoDb.todoDao().loadAllItems()
-        with(toDoAdapter) {
-            setToDoList(toDoList)
-            notifyDataSetChanged()
-        }
+        syncToDoListWithDb()
 
         view.findViewById<RecyclerView>(R.id.fragment_main_todo_list).apply {
             adapter = toDoAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-
 
         view.findViewById<Button>(R.id.fragment_main_button_add).apply {
             setOnClickListener {
@@ -64,10 +60,16 @@ class MainFragment : Fragment() {
                         current + TimeUnit.DAYS.toMillis(2),
                         current + TimeUnit.DAYS.toMillis(1))
                 toDoDb.todoDao().insert(todo)
+                syncToDoListWithDb()
             }
         }
 
         return view
     }
 
+    private fun syncToDoListWithDb() {
+        val toDoList = toDoDb.todoDao().loadAllItems()
+        toDoAdapter.setToDoList(toDoList)
+        toDoAdapter.notifyDataSetChanged()
+    }
 }// Required empty public constructor
