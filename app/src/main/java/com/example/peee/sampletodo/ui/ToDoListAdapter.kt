@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.db.ToDoEntity
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ToDoListAdapter(private val listener: ToDoListClickListener)
     : RecyclerView.Adapter<ToDoListAdapter.ViewHolder>() {
@@ -60,9 +58,10 @@ class ToDoListAdapter(private val listener: ToDoListClickListener)
             view.findViewById<TextView>(R.id.list_todo_description)?.text = todo.description
 
             // TODO: Consider better time format
-            val format = SimpleDateFormat("YYYY/MM/dd HH:mm", Locale.US)
-            view.findViewById<TextView>(R.id.list_todo_due_date)?.text = format.format(Date(todo.dueDate))
-            view.findViewById<TextView>(R.id.list_todo_reminder)?.text = format.format(Date(todo.reminder))
+            view.findViewById<TextView>(R.id.list_todo_due_date)?.text =
+                    if (todo.dueDate == 0L) "None" else DateFormatter.toString(todo.dueDate)
+            view.findViewById<TextView>(R.id.list_todo_reminder)?.text =
+                    if (todo.reminder == 0L) "None" else DateFormatter.toString(todo.reminder)
         }
     }
 }
