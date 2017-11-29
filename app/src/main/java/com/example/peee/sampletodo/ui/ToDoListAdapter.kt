@@ -1,5 +1,6 @@
 package com.example.peee.sampletodo.ui
 
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,23 @@ class ToDoListAdapter(private val listener: ToDoListClickListener)
     private var toDoList = emptyList<ToDoEntity>()
 
     fun setToDoList(toDoList: List<ToDoEntity>) {
+        DiffUtil.calculateDiff(ToDoListDiffCallback(this.toDoList, toDoList))
+                .dispatchUpdatesTo(this)
         this.toDoList = toDoList
+    }
+
+    private class ToDoListDiffCallback(val old: List<ToDoEntity>, val new: List<ToDoEntity>)
+        : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int = old.size
+
+        override fun getNewListSize(): Int = new.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                old[oldItemPosition].id == new[newItemPosition].id
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                old[oldItemPosition] == new[newItemPosition]
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
