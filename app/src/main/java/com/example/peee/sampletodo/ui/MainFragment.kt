@@ -10,11 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-
 import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.db.ToDoDatabase
 import com.example.peee.sampletodo.db.ToDoEntity
-import java.util.concurrent.TimeUnit
 
 
 class MainFragment : Fragment() {
@@ -54,20 +52,14 @@ class MainFragment : Fragment() {
 
         view.findViewById<Button>(R.id.fragment_main_button_add).apply {
             setOnClickListener {
-                // TODO: open dialog for addition
-                val current = System.currentTimeMillis()
-                val todo = ToDoEntity("hoge", "hogefuga",
-                        current + TimeUnit.DAYS.toMillis(2),
-                        current + TimeUnit.DAYS.toMillis(1))
-                toDoDb.todoDao().insert(todo)
-                syncToDoListWithDb()
+                ToDoDetailDialog().show(childFragmentManager, "todo_dialog")
             }
         }
 
         return view
     }
 
-    private fun syncToDoListWithDb() {
+    fun syncToDoListWithDb() {
         val toDoList = toDoDb.todoDao().loadAllItems()
         toDoAdapter.setToDoList(toDoList)
         toDoAdapter.notifyDataSetChanged()
