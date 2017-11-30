@@ -13,9 +13,10 @@ import android.widget.Button
 import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.db.ToDoDatabase
 import com.example.peee.sampletodo.db.ToDoEntity
+import com.example.peee.sampletodo.ui.dialog.ToDoDetailDialogFragment
 
 
-class MainFragment : Fragment(), ToDoDetailDialog.Callback {
+class MainFragment : Fragment(), ToDoDetailDialogFragment.Callback {
     companion object {
         private const val LOG_TAG = "MainFragment"
     }
@@ -52,7 +53,7 @@ class MainFragment : Fragment(), ToDoDetailDialog.Callback {
 
         view.findViewById<Button>(R.id.fragment_main_button_add).apply {
             setOnClickListener {
-                ToDoDetailDialog().show(childFragmentManager, "todo_dialog")
+                ToDoDetailDialogFragment().show(childFragmentManager, "todo_dialog")
             }
         }
 

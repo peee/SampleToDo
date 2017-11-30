@@ -1,4 +1,4 @@
-package com.example.peee.sampletodo.ui
+package com.example.peee.sampletodo.ui.dialog
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -10,10 +10,9 @@ import android.view.View
 import android.widget.*
 import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.db.ToDoEntity
-import com.example.peee.sampletodo.ui.dialog.DatePickerDialogFragment
-import com.example.peee.sampletodo.ui.dialog.TimePickerDialogFragment
+import com.example.peee.sampletodo.ui.DateFormatter
 
-class ToDoDetailDialog : DialogFragment(),
+class ToDoDetailDialogFragment : DialogFragment(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
