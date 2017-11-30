@@ -12,6 +12,8 @@
     <string name="dialog_todo_item_title">Title</string>
     <string name="dialog_todo_item_description">Description</string>
     <string name="dialog_todo_item_due_date">Due Date</string>
+    <string name="dialog_todo_item_due_date_format">%1$02d/%2$02d/%3$02d</string>
+    <string name="dialog_todo_item_due_date_time_format">%1$02d:%2$02d</string>
     <string name="dialog_todo_item_reminder">Reminder</string>
     <string name="dialog_todo_item_set_time">Set</string>
 </resources>
