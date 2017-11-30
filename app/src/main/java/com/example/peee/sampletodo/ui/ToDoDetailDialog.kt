@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import com.example.peee.sampletodo.R
-import com.example.peee.sampletodo.db.ToDoDatabase
 import com.example.peee.sampletodo.db.ToDoEntity
 
 class ToDoDetailDialog : DialogFragment() {
@@ -19,7 +18,7 @@ class ToDoDetailDialog : DialogFragment() {
                 .setTitle(R.string.dialog_todo_detail_title)
                 .setView(view)
                 .setPositiveButton(R.string.dialog_todo_detail_button_positive) {
-                    dialog, _ -> storeDb(view); dialog.dismiss()
+                    dialog, _ -> buildToDo(view); dialog.dismiss()
                 }
                 .setNegativeButton(R.string.dialog_todo_detail_button_negative) {
                     dialog, _ -> dialog.dismiss()
@@ -28,7 +27,7 @@ class ToDoDetailDialog : DialogFragment() {
     }
 
 
-    private fun storeDb(view: View) {
+    private fun buildToDo(view: View) {
         val title = view.findViewById<EditText>(R.id.dialog_edit_todo_item_title).text.toString()
         val description = view.findViewById<EditText>(R.id.dialog_edit_todo_item_description).text.toString()
         val dueDate = view.findViewById<TextView>(R.id.dialog_text_todo_item_due_date).text.toString()
@@ -37,8 +36,12 @@ class ToDoDetailDialog : DialogFragment() {
         val todo = ToDoEntity(title, description,
                 DateFormatter.toMillis(dueDate), DateFormatter.toMillis(reminder))
 
-        ToDoDatabase.getInstance(activity).todoDao().insert(todo)
-        val mainFragment = parentFragment as? MainFragment ?: return
-        mainFragment.syncToDoListWithDb()
+        val parent = parentFragment as? Callback ?: return
+        parent.onToDoDialogComplete(todo)
+    }
+
+
+    interface Callback {
+        fun onToDoDialogComplete(todo: ToDoEntity)
     }
 }

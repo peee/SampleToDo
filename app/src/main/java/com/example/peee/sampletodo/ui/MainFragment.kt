@@ -15,7 +15,7 @@ import com.example.peee.sampletodo.db.ToDoDatabase
 import com.example.peee.sampletodo.db.ToDoEntity
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), ToDoDetailDialog.Callback {
     companion object {
         private const val LOG_TAG = "MainFragment"
     }
@@ -63,5 +63,10 @@ class MainFragment : Fragment() {
         val toDoList = toDoDb.todoDao().loadAllItems()
         toDoAdapter.setToDoList(toDoList)
         toDoAdapter.notifyDataSetChanged()
+    }
+
+    override fun onToDoDialogComplete(todo: ToDoEntity) {
+        toDoDb.todoDao().insert(todo)
+        syncToDoListWithDb()
     }
 }// Required empty public constructor
