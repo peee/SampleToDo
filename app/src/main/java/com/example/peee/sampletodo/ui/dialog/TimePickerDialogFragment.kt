@@ -8,9 +8,7 @@ import java.util.*
 
 class TimePickerDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val listener = parentFragment as? TimePickerDialog.OnTimeSetListener ?:
-                return super.onCreateDialog(savedInstanceState)
-
+        val listener = parentFragment as? TimePickerDialog.OnTimeSetListener
         val calendar = Calendar.getInstance()
 
         return TimePickerDialog(activity, listener,

@@ -8,9 +8,7 @@ import java.util.*
 
 class DatePickerDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val listener = parentFragment as? DatePickerDialog.OnDateSetListener ?:
-                return super.onCreateDialog(savedInstanceState)
-
+        val listener = parentFragment as? DatePickerDialog.OnDateSetListener
         val calendar = Calendar.getInstance()
 
         return DatePickerDialog(activity, listener,
