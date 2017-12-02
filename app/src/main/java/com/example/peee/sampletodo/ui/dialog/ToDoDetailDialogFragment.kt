@@ -77,19 +77,21 @@ class ToDoDetailDialogFragment : DialogFragment(),
     private fun buildToDo(view: View) {
         val title = view.findViewById<EditText>(R.id.dialog_edit_todo_item_title).text.toString()
         val description = view.findViewById<EditText>(R.id.dialog_edit_todo_item_description).text.toString()
-
-        val dueDate = view.findViewById<TextView>(R.id.dialog_text_todo_item_due_date).text.toString()
-        val dueDateTime = view.findViewById<TextView>(R.id.dialog_text_todo_item_due_date_time).text.toString()
-
         val reminder = view.findViewById<TextView>(R.id.dialog_text_todo_item_reminder).text.toString()
 
-        val todo = ToDoEntity(title, description,
-                DateFormatter.toMillis("$dueDate $dueDateTime"), DateFormatter.toMillis(reminder))
+        val todo = ToDoEntity(title, description, getDueDate(view), DateFormatter.toMillis(reminder))
 
         val parent = parentFragment as? Callback ?: return
         parent.onToDoDialogComplete(todo)
     }
 
+    private fun getDueDate(view: View): Long {
+        if (!view.findViewById<Switch>(R.id.dialog_switch_todo_item_due_date).isChecked) return 0
+
+        val dueDate = view.findViewById<TextView>(R.id.dialog_text_todo_item_due_date).text.toString()
+        val dueDateTime = view.findViewById<TextView>(R.id.dialog_text_todo_item_due_date_time).text.toString()
+        return DateFormatter.toMillis("$dueDate $dueDateTime")
+    }
 
     interface Callback {
         fun onToDoDialogComplete(todo: ToDoEntity)
