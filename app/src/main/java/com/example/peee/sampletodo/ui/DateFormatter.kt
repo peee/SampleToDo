@@ -10,6 +10,10 @@ object DateFormatter {
 
     fun toString(time: Long): String = format.format(Date(time))
 
+    fun toDateString(time: Long): String = toString(time).split(" ")[0]
+
+    fun toTimeString(time: Long): String = toString(time).split(" ")[1]
+
     fun toMillis(dateFormat: String): Long {
         try {
             return format.parse(dateFormat).time
