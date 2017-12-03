@@ -47,7 +47,7 @@ object DateFormatter {
             return format.parse(dateFormat).time
         } catch (e: ParseException) {
             e.printStackTrace()
-            return Date(0).time
+            return 0
         }
     }
 }
