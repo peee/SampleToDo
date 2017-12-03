@@ -16,7 +16,7 @@ class ToDoDetailDialogFragment : DialogFragment(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
-    private lateinit var switch: Switch
+    private lateinit var dueDateSwitch: Switch
     private lateinit var date: TextView
     private lateinit var time: TextView
     private lateinit var dateSetter: Button
@@ -28,7 +28,7 @@ class ToDoDetailDialogFragment : DialogFragment(),
         val view = View.inflate(activity, R.layout.dialog_todo_detail, null)
 
         with (view) {
-            switch = findViewById(R.id.dialog_switch_todo_item_due_date)
+            dueDateSwitch = findViewById(R.id.dialog_switch_todo_item_due_date)
             date = findViewById(R.id.dialog_text_todo_item_due_date)
             time = findViewById(R.id.dialog_text_todo_item_due_date_time)
             dateSetter = findViewById(R.id.dialog_button_todo_item_due_date)
@@ -37,9 +37,9 @@ class ToDoDetailDialogFragment : DialogFragment(),
             reminder = findViewById(R.id.dialog_spinner_todo_item_reminder)
         }
 
-        refreshEnableState(switch.isChecked)
-        switch.setOnCheckedChangeListener {
-            _, isChecked -> refreshEnableState(isChecked)
+        refreshDueDateEnableState(dueDateSwitch.isChecked)
+        dueDateSwitch.setOnCheckedChangeListener {
+            _, isChecked -> refreshDueDateEnableState(isChecked)
         }
         dateSetter.setOnClickListener {
             DatePickerDialogFragment().show(childFragmentManager, "date_picker_due_date")
@@ -70,7 +70,7 @@ class ToDoDetailDialogFragment : DialogFragment(),
                 .create()
     }
 
-    private fun refreshEnableState(isChecked: Boolean) {
+    private fun refreshDueDateEnableState(isChecked: Boolean) {
         date.isEnabled = isChecked
         time.isEnabled = isChecked
         dateSetter.isEnabled = isChecked
