@@ -63,7 +63,7 @@ class MainFragment : Fragment(),
         return view
     }
 
-    fun syncToDoListWithDb() {
+    private fun syncToDoListWithDb() {
         val toDoList = toDoDb.todoDao().loadAllItems()
         toDoAdapter.setToDoList(toDoList)
         toDoAdapter.notifyDataSetChanged()
