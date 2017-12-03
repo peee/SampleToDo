@@ -21,6 +21,8 @@ class ToDoDetailDialogFragment : DialogFragment(),
     private lateinit var time: TextView
     private lateinit var dateSetter: Button
     private lateinit var timeSetter: Button
+    private lateinit var reminderSwitch: Switch
+    private lateinit var reminder: Spinner
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = View.inflate(activity, R.layout.dialog_todo_detail, null)
@@ -31,6 +33,8 @@ class ToDoDetailDialogFragment : DialogFragment(),
             time = findViewById(R.id.dialog_text_todo_item_due_date_time)
             dateSetter = findViewById(R.id.dialog_button_todo_item_due_date)
             timeSetter = findViewById(R.id.dialog_button_todo_item_due_date_time)
+            reminderSwitch = findViewById(R.id.dialog_switch_todo_item_reminder)
+            reminder = findViewById(R.id.dialog_spinner_todo_item_reminder)
         }
 
         refreshEnableState(switch.isChecked)
@@ -42,6 +46,16 @@ class ToDoDetailDialogFragment : DialogFragment(),
         }
         timeSetter.setOnClickListener {
             TimePickerDialogFragment().show(childFragmentManager, "time_picker_due_date")
+        }
+
+        val adapter = ArrayAdapter.createFromResource(activity,
+                R.array.reminders, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        reminder.adapter = adapter
+
+        refreshReminderEnableState(reminderSwitch.isChecked)
+        reminderSwitch.setOnCheckedChangeListener {
+            _, isChecked -> refreshReminderEnableState(isChecked)
         }
 
         return AlertDialog.Builder(activity)
@@ -74,12 +88,16 @@ class ToDoDetailDialogFragment : DialogFragment(),
         }
     }
 
+    private fun refreshReminderEnableState(isChecked: Boolean) {
+        reminder.isEnabled = isChecked
+    }
+
     private fun buildToDo(view: View) {
         val title = view.findViewById<EditText>(R.id.dialog_edit_todo_item_title).text.toString()
         val description = view.findViewById<EditText>(R.id.dialog_edit_todo_item_description).text.toString()
-        val reminder = view.findViewById<TextView>(R.id.dialog_text_todo_item_reminder).text.toString()
+        val dueDate = getDueDate(view)
 
-        val todo = ToDoEntity(title, description, getDueDate(view), DateFormatter.toMillis(reminder))
+        val todo = ToDoEntity(title, description, dueDate, getReminder(view, dueDate))
 
         val parent = parentFragment as? Callback ?: return
         parent.onToDoDialogComplete(todo)
@@ -91,6 +109,17 @@ class ToDoDetailDialogFragment : DialogFragment(),
         val dueDate = view.findViewById<TextView>(R.id.dialog_text_todo_item_due_date).text.toString()
         val dueDateTime = view.findViewById<TextView>(R.id.dialog_text_todo_item_due_date_time).text.toString()
         return DateFormatter.toMillis("$dueDate $dueDateTime")
+    }
+
+    private fun getReminder(view: View, dueDate: Long): Long {
+        if (!view.findViewById<Switch>(R.id.dialog_switch_todo_item_reminder).isChecked) return 0
+
+        val reminderString = view.findViewById<Spinner>(R.id.dialog_spinner_todo_item_reminder)
+                .selectedItem as String
+        val reminder = Reminder.stringOf(activity, reminderString)
+        val time = dueDate - reminder.millis
+        if (time < System.currentTimeMillis()) return 0
+        return time
     }
 
     interface Callback {
