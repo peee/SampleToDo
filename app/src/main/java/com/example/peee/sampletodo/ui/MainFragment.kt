@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.peee.sampletodo.R
+import com.example.peee.sampletodo.alarm.AlarmHelper
 import com.example.peee.sampletodo.db.ToDoDatabase
 import com.example.peee.sampletodo.db.ToDoEntity
 import com.example.peee.sampletodo.ui.dialog.ToDoDetailDialogFragment
@@ -68,6 +69,11 @@ class MainFragment : Fragment(), ToDoDetailDialogFragment.Callback {
 
     override fun onToDoDialogComplete(todo: ToDoEntity) {
         toDoDb.todoDao().insertOrUpdate(todo)
+        if (todo.reminder > System.currentTimeMillis()) {
+            AlarmHelper.set(activity, todo)
+        } else {
+            AlarmHelper.cancel(activity, todo)
+        }
         syncToDoListWithDb()
     }
 }// Required empty public constructor
