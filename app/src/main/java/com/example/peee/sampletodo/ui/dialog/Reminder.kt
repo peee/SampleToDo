@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.peee.sampletodo.R
 import java.util.concurrent.TimeUnit
 
-enum class Reminder(val millis: Long, private val resId: Int) {
+enum class Reminder(val millis: Long, val resId: Int) {
     MIN5(TimeUnit.MINUTES.toMillis(5), R.string.dialog_todo_item_reminder_5min),
     MIN15(TimeUnit.MINUTES.toMillis(15), R.string.dialog_todo_item_reminder_15min),
     MIN30(TimeUnit.MINUTES.toMillis(30), R.string.dialog_todo_item_reminder_30min),
@@ -19,5 +19,8 @@ enum class Reminder(val millis: Long, private val resId: Int) {
     companion object {
         fun stringOf(context: Context, string: String): Reminder =
                 values().find { context.getString(it.resId) == string } ?: MIN5
+
+        fun millisOf(millis: Long): Reminder =
+                values().find { it.millis == millis } ?: MIN5
     }
 }
