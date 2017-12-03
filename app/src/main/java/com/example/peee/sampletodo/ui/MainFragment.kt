@@ -23,8 +23,8 @@ class MainFragment : Fragment(), ToDoDetailDialogFragment.Callback {
 
     private val toDoAdapter = ToDoListAdapter(object : ToDoListClickListener {
         override fun onClick(todo: ToDoEntity) {
-            Log.i(LOG_TAG, "clicked $todo")
-            // TODO: open detail dialog
+            ToDoDetailDialogFragment.createFrom(todo)
+                    .show(childFragmentManager, "todo_dialog_update")
         }
 
         override fun onLongClick(todo: ToDoEntity): Boolean {
