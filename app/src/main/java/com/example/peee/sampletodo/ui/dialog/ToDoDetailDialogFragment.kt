@@ -16,6 +16,15 @@ class ToDoDetailDialogFragment : DialogFragment(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
+    companion object {
+        private const val EXTRA_TODO = "todo"
+
+        fun createFrom(todo: ToDoEntity): ToDoDetailDialogFragment =
+                ToDoDetailDialogFragment().apply {
+                    arguments = Bundle().apply { putSerializable(EXTRA_TODO, todo) }
+                }
+    }
+
     private lateinit var dueDateSwitch: Switch
     private lateinit var date: TextView
     private lateinit var time: TextView
@@ -58,6 +67,8 @@ class ToDoDetailDialogFragment : DialogFragment(),
             _, isChecked -> refreshReminderEnableState(isChecked)
         }
 
+        setToDo(view)
+
         return AlertDialog.Builder(activity)
                 .setTitle(R.string.dialog_todo_detail_title)
                 .setView(view)
@@ -92,12 +103,38 @@ class ToDoDetailDialogFragment : DialogFragment(),
         reminder.isEnabled = isChecked
     }
 
+    private fun setToDo(view: View) {
+        val todo = arguments?.getSerializable(EXTRA_TODO) as? ToDoEntity ?: return
+
+        with (view) {
+            findViewById<EditText>(R.id.dialog_edit_todo_item_title).setText(todo.title)
+            findViewById<EditText>(R.id.dialog_edit_todo_item_description).setText(todo.description)
+            dueDateSwitch.isChecked = todo.dueDate > 0
+            if (dueDateSwitch.isChecked) {
+                date.text = DateFormatter.toDateString(todo.dueDate)
+                time.text = DateFormatter.toTimeString(todo.dueDate)
+            }
+
+            reminderSwitch.isChecked = todo.reminder > 0
+            val diff = Reminder.millisOf(todo.dueDate - todo.reminder)
+            val index = resources.getStringArray(R.array.reminders)
+                    .indexOfFirst { it == getString(diff.resId) }
+            reminder.setSelection(index)
+        }
+    }
+
     private fun buildToDo(view: View) {
         val title = view.findViewById<EditText>(R.id.dialog_edit_todo_item_title).text.toString()
         val description = view.findViewById<EditText>(R.id.dialog_edit_todo_item_description).text.toString()
         val dueDate = getDueDate(view)
 
-        val todo = ToDoEntity(title, description, dueDate, getReminder(view, dueDate))
+        val todo = arguments?.let { it.getSerializable(EXTRA_TODO) as? ToDoEntity }
+                ?.apply {
+                    this.title = title
+                    this.description = description
+                    this.dueDate = dueDate
+                    this.reminder = getReminder(view, dueDate)
+                } ?: ToDoEntity(title, description, dueDate, getReminder(view, dueDate))
 
         val parent = parentFragment as? Callback ?: return
         parent.onToDoDialogComplete(todo)
