@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="reminders">
+        <item>@string/dialog_todo_item_reminder_5min</item>
+        <item>@string/dialog_todo_item_reminder_15min</item>
+        <item>@string/dialog_todo_item_reminder_30min</item>
+        <item>@string/dialog_todo_item_reminder_1hour</item>
+        <item>@string/dialog_todo_item_reminder_2hour</item>
+        <item>@string/dialog_todo_item_reminder_4hour</item>
+        <item>@string/dialog_todo_item_reminder_8hour</item>
+        <item>@string/dialog_todo_item_reminder_12hour</item>
+        <item>@string/dialog_todo_item_reminder_1day</item>
+        <item>@string/dialog_todo_item_reminder_1week</item>
+    </string-array>
+</resources>
