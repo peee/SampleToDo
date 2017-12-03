@@ -67,7 +67,7 @@ class MainFragment : Fragment(), ToDoDetailDialogFragment.Callback {
     }
 
     override fun onToDoDialogComplete(todo: ToDoEntity) {
-        toDoDb.todoDao().insert(todo)
+        toDoDb.todoDao().insertOrUpdate(todo)
         syncToDoListWithDb()
     }
 }// Required empty public constructor

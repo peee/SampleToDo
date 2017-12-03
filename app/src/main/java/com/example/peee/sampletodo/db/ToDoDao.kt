@@ -11,7 +11,7 @@ interface ToDoDao {
     fun loadItem(id: Long): ToDoEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(todo: ToDoEntity)
+    fun insertOrUpdate(todo: ToDoEntity)
 
     @Delete
     fun delete(todo: ToDoEntity)
