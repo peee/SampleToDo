@@ -72,10 +72,10 @@ class ToDoDetailDialogFragment : DialogFragment(),
         return AlertDialog.Builder(activity)
                 .setTitle(R.string.dialog_todo_detail_title)
                 .setView(view)
-                .setPositiveButton(R.string.dialog_todo_detail_button_positive) {
+                .setPositiveButton(R.string.dialog_ok) {
                     dialog, _ -> buildToDo(view); dialog.dismiss()
                 }
-                .setNegativeButton(R.string.dialog_todo_detail_button_negative) {
+                .setNeutralButton(R.string.dialog_cancel) {
                     dialog, _ -> dialog.dismiss()
                 }
                 .create()

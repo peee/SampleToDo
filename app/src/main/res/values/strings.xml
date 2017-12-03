@@ -6,9 +6,11 @@
     <string name="list_todo_text_due_date">Due Date: </string>
     <string name="list_todo_text_reminder">Reminder: </string>
 
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_delete">Delete</string>
+
     <string name="dialog_todo_detail_title">Edit</string>
-    <string name="dialog_todo_detail_button_positive">OK</string>
-    <string name="dialog_todo_detail_button_negative">Cancel</string>
     <string name="dialog_todo_item_title">Title</string>
     <string name="dialog_todo_item_description">Description</string>
     <string name="dialog_todo_item_due_date">Due Date</string>
