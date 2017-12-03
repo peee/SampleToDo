@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import java.util.*
 
+/**
+ * A time picker dialog fragment. Parent fragment should
+ * implement [TimePickerDialog.OnTimeSetListener] to receive time picked.
+ */
 class TimePickerDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val listener = parentFragment as? TimePickerDialog.OnTimeSetListener

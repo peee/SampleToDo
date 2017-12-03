@@ -7,6 +7,11 @@ import android.support.v4.app.DialogFragment
 import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.db.ToDoEntity
 
+/**
+ * A dialog fragment that asks user to confirm deletion of
+ * selected to-do item in the DB. User selection is back to
+ * parent fragment through [Callback].
+ */
 class DeleteConfirmationDialogFragment : DialogFragment() {
     companion object {
         private const val EXTRA_TODO = "todo"
@@ -39,6 +44,11 @@ class DeleteConfirmationDialogFragment : DialogFragment() {
     }
 
     interface Callback {
+        /**
+         * Called when user confirmed deletion.
+         *
+         * @param todo to-do item user selected for deletion
+         */
         fun onDeleteConfirmed(todo: ToDoEntity)
     }
 }

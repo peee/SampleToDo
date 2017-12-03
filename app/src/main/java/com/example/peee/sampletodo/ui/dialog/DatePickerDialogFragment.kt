@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import java.util.*
 
+/**
+ * A date picker dialog fragment. Parent fragment should
+ * implement [DatePickerDialog.OnDateSetListener] to receive date picked.
+ */
 class DatePickerDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val listener = parentFragment as? DatePickerDialog.OnDateSetListener

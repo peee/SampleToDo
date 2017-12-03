@@ -12,6 +12,11 @@ import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.db.ToDoEntity
 import com.example.peee.sampletodo.ui.DateFormatter
 
+/**
+ * A dialog fragment that allows user to edit to-do details.
+ * It generates [ToDoEntity] based on user input back to parent fragment
+ * through [Callback] interface.
+ */
 class ToDoDetailDialogFragment : DialogFragment(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
@@ -19,6 +24,12 @@ class ToDoDetailDialogFragment : DialogFragment(),
     companion object {
         private const val EXTRA_TODO = "todo"
 
+        /**
+         * Creates the dialog with filling in given [ToDoEntity].
+         *
+         * @param todo to-do data to fill in on the dialog
+         * @return dialog with the to-do data
+         */
         fun createFrom(todo: ToDoEntity): ToDoDetailDialogFragment =
                 ToDoDetailDialogFragment().apply {
                     arguments = Bundle().apply { putSerializable(EXTRA_TODO, todo) }
@@ -160,6 +171,11 @@ class ToDoDetailDialogFragment : DialogFragment(),
     }
 
     interface Callback {
+        /**
+         * Called when user finishes editing to-do data
+         *
+         * @param todo to-do data user edited on the dialog
+         */
         fun onToDoDialogComplete(todo: ToDoEntity)
     }
 
