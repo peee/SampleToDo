@@ -18,6 +18,10 @@ import com.example.peee.sampletodo.ui.dialog.DeleteConfirmationDialogFragment
 import com.example.peee.sampletodo.ui.dialog.ToDoDetailDialogFragment
 
 
+/**
+ * A fragment that shows list of all to-do items synchronized with DB,
+ * interacting with user to add, edit, or delete to-do items.
+ */
 class MainFragment : Fragment(),
         ToDoDetailDialogFragment.Callback,
         DeleteConfirmationDialogFragment.Callback {

@@ -10,11 +10,19 @@ import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.db.ToDoEntity
 import com.example.peee.sampletodo.ui.dialog.Reminder
 
+/**
+ * A list adapter that adapts given to-do items to recycler view.
+ */
 class ToDoListAdapter(private val listener: ToDoListClickListener)
     : RecyclerView.Adapter<ToDoListAdapter.ViewHolder>() {
 
     private var toDoList = emptyList<ToDoEntity>()
 
+    /**
+     * Applies list of to-do items to the adapter to update view.
+     *
+     * @param toDoList list of to-do items to show
+     */
     fun setToDoList(toDoList: List<ToDoEntity>) {
         DiffUtil.calculateDiff(ToDoListDiffCallback(this.toDoList, toDoList))
                 .dispatchUpdatesTo(this)
