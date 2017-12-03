@@ -14,13 +14,13 @@ import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.alarm.AlarmHelper
 import com.example.peee.sampletodo.db.ToDoDatabase
 import com.example.peee.sampletodo.db.ToDoEntity
+import com.example.peee.sampletodo.ui.dialog.DeleteConfirmationDialogFragment
 import com.example.peee.sampletodo.ui.dialog.ToDoDetailDialogFragment
 
 
-class MainFragment : Fragment(), ToDoDetailDialogFragment.Callback {
-    companion object {
-        private const val LOG_TAG = "MainFragment"
-    }
+class MainFragment : Fragment(),
+        ToDoDetailDialogFragment.Callback,
+        DeleteConfirmationDialogFragment.Callback {
 
     private val toDoAdapter = ToDoListAdapter(object : ToDoListClickListener {
         override fun onClick(todo: ToDoEntity) {
@@ -29,10 +29,8 @@ class MainFragment : Fragment(), ToDoDetailDialogFragment.Callback {
         }
 
         override fun onLongClick(todo: ToDoEntity): Boolean {
-            Log.i(LOG_TAG, "long clicked $todo")
-            // TODO: open dialog to delete
-            toDoDb.todoDao().delete(todo)
-            syncToDoListWithDb()
+            DeleteConfirmationDialogFragment.createFrom(todo)
+                    .show(childFragmentManager, "todo_dialog_delete")
             return true
         }
     })
@@ -74,6 +72,11 @@ class MainFragment : Fragment(), ToDoDetailDialogFragment.Callback {
         } else {
             AlarmHelper.cancel(activity, todo)
         }
+        syncToDoListWithDb()
+    }
+
+    override fun onDeleteConfirmed(todo: ToDoEntity) {
+        toDoDb.todoDao().delete(todo)
         syncToDoListWithDb()
     }
 }// Required empty public constructor
