@@ -7,7 +7,15 @@ import android.os.Build
 import android.support.v4.app.NotificationCompat
 import com.example.peee.sampletodo.R
 
+/**
+ * A helper object to handle notification for to-do reminder
+ */
 object ReminderNotification {
+    /**
+     * Posts notification for to-do reminder
+     *
+     * @param context context to get [NotificationManager], string resources, and notification objects
+     */
     fun post(context: Context, message: String) {
         val notificationManager = context
                 .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
