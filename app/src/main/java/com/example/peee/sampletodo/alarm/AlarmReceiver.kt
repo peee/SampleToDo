@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import com.example.peee.sampletodo.notification.ReminderNotification
 
+/**
+ * A broadcast receiver to handle alarm event by [AlarmHelper].
+ */
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         context ?: return
