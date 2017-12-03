@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.db.ToDoEntity
+import com.example.peee.sampletodo.ui.dialog.Reminder
 
 class ToDoListAdapter(private val listener: ToDoListClickListener)
     : RecyclerView.Adapter<ToDoListAdapter.ViewHolder>() {
@@ -57,11 +58,16 @@ class ToDoListAdapter(private val listener: ToDoListClickListener)
             view.findViewById<TextView>(R.id.list_todo_title)?.text = todo.title
             view.findViewById<TextView>(R.id.list_todo_description)?.text = todo.description
 
-            // TODO: Consider better time format
             view.findViewById<TextView>(R.id.list_todo_due_date)?.text =
                     if (todo.dueDate == 0L) "None" else DateFormatter.toString(todo.dueDate)
             view.findViewById<TextView>(R.id.list_todo_reminder)?.text =
-                    if (todo.reminder == 0L) "None" else DateFormatter.toString(todo.reminder)
+                    if (todo.reminder == 0L) "None" else getReminder(todo)
+        }
+
+        private fun getReminder(todo: ToDoEntity): String {
+            val diff = todo.dueDate - todo.reminder
+            val reminder = Reminder.millisOf(diff)
+            return view.context.getString(reminder.resId)
         }
     }
 }
