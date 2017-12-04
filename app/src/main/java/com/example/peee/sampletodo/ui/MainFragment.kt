@@ -66,7 +66,6 @@ class MainFragment : Fragment(),
     private fun syncToDoListWithDb() {
         val toDoList = toDoDb.todoDao().loadAllItems()
         toDoAdapter.setToDoList(toDoList)
-        toDoAdapter.notifyDataSetChanged()
     }
 
     override fun onToDoDialogComplete(todo: ToDoEntity) {
