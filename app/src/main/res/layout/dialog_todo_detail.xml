@@ -19,6 +19,7 @@
             android:id="@+id/dialog_edit_todo_item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:maxLength="64"
             android:maxLines="1"/>
 
@@ -32,6 +33,7 @@
             android:id="@+id/dialog_edit_todo_item_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:maxLength="128"
             android:maxLines="1"/>
 
