@@ -52,9 +52,9 @@ class ToDoListAdapter(private val listener: ToDoListClickListener)
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         if (position < toDoList.size) {
             holder?.apply {
-                setTexts(toDoList[position])
-                view.setOnClickListener { listener.onClick(toDoList[position]) }
-                view.setOnLongClickListener { listener.onLongClick(toDoList[position]) }
+                setTexts(toDoList[adapterPosition])
+                view.setOnClickListener { listener.onClick(toDoList[adapterPosition]) }
+                view.setOnLongClickListener { listener.onLongClick(toDoList[adapterPosition]) }
             }
         }
     }
