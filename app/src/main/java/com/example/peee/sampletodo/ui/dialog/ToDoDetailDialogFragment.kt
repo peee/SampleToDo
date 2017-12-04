@@ -139,13 +139,8 @@ class ToDoDetailDialogFragment : DialogFragment(),
         val description = view.findViewById<EditText>(R.id.dialog_edit_todo_item_description).text.toString()
         val dueDate = getDueDate(view)
 
-        val todo = arguments?.let { it.getSerializable(EXTRA_TODO) as? ToDoEntity }
-                ?.apply {
-                    this.title = title
-                    this.description = description
-                    this.dueDate = dueDate
-                    this.reminder = getReminder(view, dueDate)
-                } ?: ToDoEntity(title, description, dueDate, getReminder(view, dueDate))
+        val todo = ToDoEntity(title, description, dueDate, getReminder(view, dueDate))
+        arguments?.let { it.getSerializable(EXTRA_TODO) as? ToDoEntity }?.also { todo.id = it.id }
 
         val parent = parentFragment as? Callback ?: return
         parent.onToDoDialogComplete(todo)
