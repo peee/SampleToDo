@@ -32,7 +32,6 @@ abstract class ToDoDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context, ToDoDatabase::class.java, DB_NAME)
-                        .allowMainThreadQueries() // TODO: init in non-main thread
                         .build()
     }
 }
