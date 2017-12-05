@@ -3,16 +3,16 @@ package com.example.peee.sampletodo.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.LoaderManager
+import android.support.v4.content.Loader
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.alarm.AlarmHelper
-import com.example.peee.sampletodo.db.ToDoDatabase
 import com.example.peee.sampletodo.db.ToDoEntity
 import com.example.peee.sampletodo.ui.dialog.DeleteConfirmationDialogFragment
 import com.example.peee.sampletodo.ui.dialog.ToDoDetailDialogFragment
@@ -24,7 +24,8 @@ import com.example.peee.sampletodo.ui.dialog.ToDoDetailDialogFragment
  */
 class MainFragment : Fragment(),
         ToDoDetailDialogFragment.Callback,
-        DeleteConfirmationDialogFragment.Callback {
+        DeleteConfirmationDialogFragment.Callback,
+        LoaderManager.LoaderCallbacks<List<ToDoEntity>> {
 
     private val toDoAdapter = ToDoListAdapter(object : ToDoListClickListener {
         override fun onClick(todo: ToDoEntity) {
@@ -39,15 +40,11 @@ class MainFragment : Fragment(),
         }
     })
 
-    private lateinit var toDoDb: ToDoDatabase
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                      savedInstanceState: Bundle?): View {
         val view = inflater!!.inflate(R.layout.fragment_main, container, false)
 
-        toDoDb = ToDoDatabase.getInstance(activity)
-
-        syncToDoListWithDb()
+        queryDb(ToDoDbTaskLoader.SYNC)
 
         view.findViewById<RecyclerView>(R.id.fragment_main_todo_list).apply {
             adapter = toDoAdapter
@@ -63,24 +60,46 @@ class MainFragment : Fragment(),
         return view
     }
 
-    private fun syncToDoListWithDb() {
-        val toDoList = toDoDb.todoDao().loadAllItems()
-        toDoAdapter.setToDoList(toDoList)
+    companion object {
+        const val EXTRA_TODO_DB_OP = "todo_db_op"
+        const val EXTRA_TODO = "todo"
+    }
+
+    private fun queryDb(opType: Int, todo: ToDoEntity? = null) {
+        Bundle().apply {
+            putInt(EXTRA_TODO_DB_OP, opType)
+            todo?.let{ putSerializable(EXTRA_TODO, it) }
+        }.also {
+            loaderManager.restartLoader(0, it, this) // force sync
+        }
     }
 
     override fun onToDoDialogComplete(todo: ToDoEntity) {
-        toDoDb.todoDao().insertOrUpdate(todo)
+        queryDb(ToDoDbTaskLoader.INSERT_OR_UPDATE, todo)
         if (todo.reminder > System.currentTimeMillis()) {
             AlarmHelper.set(activity, todo)
         } else {
             AlarmHelper.cancel(activity, todo)
         }
-        syncToDoListWithDb()
     }
 
     override fun onDeleteConfirmed(todo: ToDoEntity) {
         AlarmHelper.cancel(activity, todo)
-        toDoDb.todoDao().delete(todo)
-        syncToDoListWithDb()
+        queryDb(ToDoDbTaskLoader.DELETE, todo)
     }
+
+
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<ToDoEntity>> {
+        val op = args?.getInt(EXTRA_TODO_DB_OP) ?: ToDoDbTaskLoader.SYNC
+        val data = args?.getSerializable(EXTRA_TODO) as? ToDoEntity ?: ToDoEntity()
+        return ToDoDbTaskLoader(activity, op, data)
+    }
+
+    override fun onLoadFinished(loader: Loader<List<ToDoEntity>>?, data: List<ToDoEntity>?) {
+        data?.let { toDoAdapter.setToDoList(it) }
+    }
+
+    override fun onLoaderReset(loader: Loader<List<ToDoEntity>>?) {
+    }
+
 }// Required empty public constructor
