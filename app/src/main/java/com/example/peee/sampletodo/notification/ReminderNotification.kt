@@ -42,6 +42,7 @@ object ReminderNotification {
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(message)
                 .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
                 .build()
 
         notificationManager.notify(NotificationConsts.ID_REMINDER, notification)
