@@ -22,6 +22,7 @@
     <string name="dialog_todo_delete_title">Delete</string>
     <string name="dialog_todo_delete_message">Are you sure to delete the item %1$s ?</string>
 
+    <string name="dialog_todo_item_reminder_on_time">on time</string>
     <string name="dialog_todo_item_reminder_5min">5 min</string>
     <string name="dialog_todo_item_reminder_15min">15 min</string>
     <string name="dialog_todo_item_reminder_30min">30 min</string>
