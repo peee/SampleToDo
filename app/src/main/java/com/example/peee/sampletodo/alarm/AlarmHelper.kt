@@ -29,8 +29,8 @@ object AlarmHelper {
      * @param todo to-do data to cancel reminder for
      */
     fun cancel(context: Context, todo: ToDoEntity) {
-        val pendingIntent = getPendingIntent(context, todo, 0)
-        pendingIntent.cancel()
+        val pendingIntent = getPendingIntent(context, todo, PendingIntent.FLAG_NO_CREATE)
+        pendingIntent?.cancel() ?: return
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent)
@@ -38,7 +38,7 @@ object AlarmHelper {
 
     const val EXTRA_TODO = "alarm_todo"
 
-    private fun getPendingIntent(context: Context, todo: ToDoEntity, flag: Int): PendingIntent {
+    private fun getPendingIntent(context: Context, todo: ToDoEntity, flag: Int): PendingIntent? {
         val intent = Intent(context, AlarmReceiver::class.java)
                 .putExtra(EXTRA_TODO, todo.title)
 
