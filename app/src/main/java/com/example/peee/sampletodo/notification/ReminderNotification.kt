@@ -31,7 +31,7 @@ object ReminderNotification {
         }
 
         val notification = builder
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.notification_reminder)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(message)
                 .build()
