@@ -13,7 +13,8 @@ class AlarmReceiver : BroadcastReceiver() {
         context ?: return
         intent ?: return
 
-        val title = intent.getStringExtra(AlarmHelper.EXTRA_TODO)
-        ReminderNotification.post(context, title)
+        val title = intent.getStringExtra(AlarmHelper.EXTRA_TODO_TITLE)
+        val id = intent.getLongExtra(AlarmHelper.EXTRA_TODO_ID, 0)
+        ReminderNotification.post(context, title, id)
     }
 }

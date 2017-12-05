@@ -36,11 +36,13 @@ object AlarmHelper {
         alarmManager.cancel(pendingIntent)
     }
 
-    const val EXTRA_TODO = "alarm_todo"
+    const val EXTRA_TODO_TITLE = "alarm_todo_title"
+    const val EXTRA_TODO_ID = "alarm_todo_id"
 
     private fun getPendingIntent(context: Context, todo: ToDoEntity, flag: Int): PendingIntent? {
         val intent = Intent(context, AlarmReceiver::class.java)
-                .putExtra(EXTRA_TODO, todo.title)
+                .putExtra(EXTRA_TODO_TITLE, todo.title)
+                .putExtra(EXTRA_TODO_ID, todo.id)
 
         return PendingIntent.getBroadcast(context, todo.id.toInt(), intent, flag)
     }
