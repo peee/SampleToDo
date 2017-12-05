@@ -79,6 +79,7 @@ class MainFragment : Fragment(),
     }
 
     override fun onDeleteConfirmed(todo: ToDoEntity) {
+        AlarmHelper.cancel(activity, todo)
         toDoDb.todoDao().delete(todo)
         syncToDoListWithDb()
     }
