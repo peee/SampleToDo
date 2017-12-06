@@ -15,8 +15,7 @@ and Android architecture components. Currently work in progress.
 
 ## Future Plan
 
-* Accessing DB on non-main thread
 * Decorating UI for better look and feel
-* Utilizing other archtecture components than `Room`
+* Utilizing other architecture components than `Room`
   * `Lifecycle`, `ViewModel`, `LiveData`
 * Better handling for done/delete
