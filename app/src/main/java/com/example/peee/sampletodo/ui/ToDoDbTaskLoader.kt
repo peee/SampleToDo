@@ -18,14 +18,21 @@ class ToDoDbTaskLoader(context: Context, private val opType: Int, private val to
         const val DELETE = 2
     }
 
-    private lateinit var db: ToDoDatabase
+    private var isInProgress = false
 
     override fun onStartLoading() {
-        db = ToDoDatabase.getInstance(context)
-        forceLoad()
+        if (!isInProgress) {
+            forceLoad()
+        }
+    }
+
+    override fun onForceLoad() {
+        isInProgress = true
+        super.onForceLoad()
     }
 
     override fun loadInBackground(): List<ToDoEntity> {
+        val db = ToDoDatabase.getInstance(context)
         when (opType) {
             INSERT_OR_UPDATE -> db.todoDao().insertOrUpdate(todo)
             DELETE -> db.todoDao().delete(todo)
