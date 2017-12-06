@@ -53,6 +53,7 @@
                 android:id="@+id/dialog_text_todo_item_due_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:freezesText="true"
                 android:layout_weight="2"/>
             <Button
                 android:id="@+id/dialog_button_todo_item_due_date"
@@ -70,6 +71,7 @@
                 android:id="@+id/dialog_text_todo_item_due_date_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:freezesText="true"
                 android:layout_weight="2"/>
             <Button
                 android:id="@+id/dialog_button_todo_item_due_date_time"
