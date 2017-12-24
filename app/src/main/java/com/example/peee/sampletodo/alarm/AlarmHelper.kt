@@ -4,12 +4,15 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.example.peee.sampletodo.db.ToDoEntity
 
 /**
  * A helper object to set/cancel alarm for to-do reminder.
  */
 object AlarmHelper {
+    private const val LOG_TAG = "AlarmHelper"
+
     /**
      * Sets alarm for to-do reminder. Updates if already exists.
      *
@@ -20,6 +23,7 @@ object AlarmHelper {
         val pendingIntent = getPendingIntent(context, todo, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, todo.reminder, pendingIntent)
+        Log.d(LOG_TAG, "set reminder at ${todo.reminder}")
     }
 
     /**
