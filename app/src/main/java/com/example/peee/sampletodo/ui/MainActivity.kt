@@ -1,13 +1,13 @@
 package com.example.peee.sampletodo.ui
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
+import android.support.v7.app.AppCompatActivity
 import com.example.peee.sampletodo.R
 
 /**
  * A fragment that holds fragment for all to-do items.
  */
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
