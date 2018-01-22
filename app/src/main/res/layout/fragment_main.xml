@@ -7,12 +7,6 @@
     android:padding="10dp"
     tools:context="com.example.peee.sampletodo.ui.MainFragment">
 
-    <Button
-        android:id="@+id/fragment_main_button_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_main_button_add"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_main_todo_list"
         android:layout_width="match_parent"

@@ -7,10 +7,7 @@ import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
+import android.view.*
 import com.example.peee.sampletodo.R
 import com.example.peee.sampletodo.alarm.AlarmHelper
 import com.example.peee.sampletodo.db.ToDoEntity
@@ -44,6 +41,8 @@ class MainFragment : Fragment(),
                      savedInstanceState: Bundle?): View {
         val view = inflater!!.inflate(R.layout.fragment_main, container, false)
 
+        setHasOptionsMenu(true)
+
         queryDb(ToDoDbTaskLoader.SYNC)
 
         view.findViewById<RecyclerView>(R.id.fragment_main_todo_list).apply {
@@ -51,13 +50,19 @@ class MainFragment : Fragment(),
             layoutManager = LinearLayoutManager(activity)
         }
 
-        view.findViewById<Button>(R.id.fragment_main_button_add).apply {
-            setOnClickListener {
-                ToDoDetailDialogFragment().show(childFragmentManager, "todo_dialog")
-            }
-        }
-
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+        inflater.inflate(R.menu.app_bar, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) : Boolean {
+        when (item.itemId) {
+            R.id.action_add_todo -> ToDoDetailDialogFragment().show(childFragmentManager, "todo_dialog")
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
     }
 
     companion object {
