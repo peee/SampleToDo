@@ -35,4 +35,6 @@
     <string name="dialog_todo_item_reminder_1week">1 week</string>
 
     <string name="notification_channel_reminder">reminder</string>
+
+    <string name="app_bar_action_add_todo">Add ToDo</string>
 </resources>
