@@ -60,6 +60,16 @@ class MainFragment : Fragment(),
     override fun onOptionsItemSelected(item: MenuItem) : Boolean {
         when (item.itemId) {
             R.id.action_add_todo -> ToDoDetailDialogFragment().show(childFragmentManager, "todo_dialog")
+            R.id.action_sort_todo -> {
+                if (item.isChecked) {
+                    queryDb(ToDoDbTaskLoader.ORDER_BY_DUE_DATE_DESC)
+                    item.setIcon(R.drawable.app_bar_action_sort_by_due_date_desc)
+                } else {
+                    queryDb(ToDoDbTaskLoader.ORDER_BY_DUE_DATE_ASC)
+                    item.setIcon(R.drawable.app_bar_action_sort_by_due_date_asc)
+                }
+                item.isChecked = !item.isChecked
+            }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
