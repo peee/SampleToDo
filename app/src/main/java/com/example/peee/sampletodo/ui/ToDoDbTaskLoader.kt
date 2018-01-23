@@ -16,6 +16,8 @@ class ToDoDbTaskLoader(context: Context, private val opType: Int, private val to
         const val SYNC = 0
         const val INSERT_OR_UPDATE = 1
         const val DELETE = 2
+        const val ORDER_BY_DUE_DATE_ASC = 3
+        const val ORDER_BY_DUE_DATE_DESC = 4
     }
 
     private var isInProgress = false
@@ -36,6 +38,8 @@ class ToDoDbTaskLoader(context: Context, private val opType: Int, private val to
         when (opType) {
             INSERT_OR_UPDATE -> db.todoDao().insertOrUpdate(todo)
             DELETE -> db.todoDao().delete(todo)
+            ORDER_BY_DUE_DATE_ASC -> return db.todoDao().loadAllItemsOrderByDueDateAsc()
+            ORDER_BY_DUE_DATE_DESC -> return db.todoDao().loadAllItemsOrderByDueDateDesc()
         }
         return db.todoDao().loadAllItems()
     }
