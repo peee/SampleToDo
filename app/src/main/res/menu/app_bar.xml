@@ -5,4 +5,9 @@
         android:icon="@drawable/app_bar_action_add_todo"
         android:title="@string/app_bar_action_add_todo"
         app:showAsAction="always"/>
+
+    <item android:id="@+id/action_sort_todo"
+        android:icon="@drawable/app_bar_action_sort_by_due_date_asc"
+        android:title="@string/app_bar_action_sort_todo"
+        app:showAsAction="ifRoom"/>
 </menu>

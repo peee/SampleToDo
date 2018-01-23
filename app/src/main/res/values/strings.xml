@@ -35,4 +35,5 @@
     <string name="notification_channel_reminder">reminder</string>
 
     <string name="app_bar_action_add_todo">Add ToDo</string>
+    <string name="app_bar_action_sort_todo">Sort by due date</string>
 </resources>
