@@ -16,6 +16,22 @@ interface ToDoDao {
     fun loadAllItems(): List<ToDoEntity>
 
     /**
+     * Loads all to-do items from the DB ordered by due date ascending.
+     *
+     * @return list of to-do items in the DB
+     */
+    @Query("SELECT * FROM todo ORDER BY dueDate ASC")
+    fun loadAllItemsOrderByDueDateAsc(): List<ToDoEntity>
+
+    /**
+     * Loads all to-do items from the DB ordered by due date descending.
+     *
+     * @return list of to-do items in the DB
+     */
+    @Query("SELECT * FROM todo ORDER BY dueDate DESC")
+    fun loadAllItemsOrderByDueDateDesc(): List<ToDoEntity>
+
+    /**
      * Loads a to-do item that matches given ID.
      *
      * @param id id of to-do item in the DB
